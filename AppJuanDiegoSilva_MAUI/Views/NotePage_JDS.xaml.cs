@@ -1,4 +1,4 @@
-namespace AppJuanDiegoSilva_MAUI;
+namespace AppJuanDiegoSilva_MAUI.Views;
 
 public partial class NotePage_JDS : ContentPage
 {
@@ -25,5 +25,18 @@ public partial class NotePage_JDS : ContentPage
             File.Delete(_fileName);
 
         TextEditor.Text = string.Empty;
+    }
+    private void LoadNote(string fileName)
+    {
+        Models.Note_JDS noteModel = new Models.Note_JDS();
+        noteModel.Filename_JDS = fileName;
+
+        if (File.Exists(fileName))
+        {
+            noteModel.Date_JDS = File.GetCreationTime(fileName);
+            noteModel.Text_JDS = File.ReadAllText(fileName);
+        }
+
+        BindingContext = noteModel;
     }
 }
