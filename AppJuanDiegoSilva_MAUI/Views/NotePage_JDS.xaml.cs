@@ -1,5 +1,5 @@
 namespace AppJuanDiegoSilva_MAUI.Views;
-
+[QueryProperty(nameof(ItemId), nameof(ItemId))]
 public partial class NotePage_JDS : ContentPage
 {
 
@@ -8,23 +8,34 @@ public partial class NotePage_JDS : ContentPage
 	{
 		InitializeComponent();
 
+
         if (File.Exists(_fileName))
             TextEditor.Text = File.ReadAllText(_fileName);
+
+        string appDataPath = FileSystem.AppDataDirectory;
+        string randomFileName = $"{Path.GetRandomFileName()}.notes.txt";
+
+        LoadNote(Path.Combine(appDataPath, randomFileName));
     }
 
-    private void SaveButton_Clicked_JDS(object sender, EventArgs e)
+    private async void SaveButton_Clicked_JDS(object sender, EventArgs e)
     {
-        // Save the file.
-        File.WriteAllText(_fileName, TextEditor.Text);
+        if (BindingContext is Models.Note_JDS note)
+            File.WriteAllText(note.Filename_JDS, TextEditor.Text);
+
+        await Shell.Current.GoToAsync("..");
     }
 
-    private void DeleteButton_Clicked_JDS(object sender, EventArgs e)
+    private async void DeleteButton_Clicked_JDS(object sender, EventArgs e)
     {
-        // Delete the file.
-        if (File.Exists(_fileName))
-            File.Delete(_fileName);
+        if (BindingContext is Models.Note_JDS note)
+        {
+            // Delete the file.
+            if (File.Exists(note.Filename_JDS))
+                File.Delete(note.Filename_JDS);
+        }
 
-        TextEditor.Text = string.Empty;
+        await Shell.Current.GoToAsync("..");
     }
     private void LoadNote(string fileName)
     {
@@ -38,5 +49,9 @@ public partial class NotePage_JDS : ContentPage
         }
 
         BindingContext = noteModel;
+    }
+    public string ItemId
+    {
+        set { LoadNote(value); }
     }
 }

@@ -73,6 +73,9 @@
 	  <MauiXaml Update="Views\AboutPage_JDS.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\AllNotesPage_JDS.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\NotePage_JDS.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
